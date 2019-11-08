@@ -4,3 +4,13 @@
 //select * from projects
 //insert into tasks(project_id, description, completed) values(1, "Go back over past projects", 0)
 //select * from tasks
+const db = require("../data/dbConfig");
+
+module.exports = {
+    addResource
+}
+
+function addResource(resource){
+    return db("resources")
+    .insert(resource)
+}
