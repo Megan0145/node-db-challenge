@@ -68,4 +68,14 @@ router.get("/projects", (req, res) => {
     });
 });
 
+router.post("/tasks", (req, res) => {
+    projects.addTask(req.body)
+    .then(task => {
+        res.status(201).json({message: "Task created!", task: {task_id: task[0], description: req.body.description, completed: req.body.completed}})
+    })
+    .catch(err => {
+        res.status(500).json({message: "Cannot add tasks: " + err.message})
+    })
+})
+
 module.exports = router;

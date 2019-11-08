@@ -10,7 +10,8 @@ module.exports = {
     addResource,
     getResources,
     addProject,
-    getProjects
+    getProjects,
+    addTask
 }
 
 function addResource(resource) {
@@ -29,4 +30,9 @@ function addProject(project) {
 
 function getProjects() {
     return db("projects")
+}
+
+function addTask(task) {
+    return db("tasks")
+    .insert(task)
 }
