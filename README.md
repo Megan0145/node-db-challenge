@@ -40,11 +40,21 @@ Demonstrate your understanding of this week's concepts by answering the followin
 
 - [ ] Explain the difference between `Relational Databases` and `SQL`.
 
+SQL: Structured Query Language used to query against a database to extract, add, update & delete information.
+
+Relational Database: A database whose tables are relational
+
 - [ ] Why do tables need a `primary key`?
+
+So that each row within can be uniquely identified
 
 - [ ] What is the name given to a table column that references the primary key on another table.
 
+Foreign Key
+
 - [ ] What do we need in order to have a _many to many_ relationship between two tables.
+
+An intermediate table. Otherwise, if the tables interacted with eachother directly, a lot of duplication would occur
 
 ## Minimum Viable Product
 
