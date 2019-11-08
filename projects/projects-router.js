@@ -69,13 +69,35 @@ router.get("/projects", (req, res) => {
 });
 
 router.post("/tasks", (req, res) => {
-    projects.addTask(req.body)
+  projects
+    .addTask(req.body)
     .then(task => {
-        res.status(201).json({message: "Task created!", task: {task_id: task[0], description: req.body.description, completed: req.body.completed}})
+      res
+        .status(201)
+        .json({
+          message: "Task created!",
+          task: {
+            task_id: task[0],
+            description: req.body.description,
+            completed: req.body.completed
+          }
+        });
     })
     .catch(err => {
-        res.status(500).json({message: "Cannot add tasks: " + err.message})
-    })
-})
+      res.status(500).json({ message: "Cannot add tasks: " + err.message });
+    });
+});
 
+router.get("/projects/:id/tasks", (req, res) => {
+  projects
+    .getTasks(req.params.id)
+    .then(tasks => {
+      res.json(tasks);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ message: "Cannot get tasks for project: " + err.message });
+    });
+});
 module.exports = router;
