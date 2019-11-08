@@ -61,7 +61,16 @@ router.get("/projects", (req, res) => {
   projects
     .getProjects()
     .then(projects => {
-      res.json(projects.map(p => {return {project_id: p.project_id, project_name: p.project_name, description: p.description, completed: p.completed === 1 ? true : false}}))
+      res.json(
+        projects.map(p => {
+          return {
+            project_id: p.project_id,
+            project_name: p.project_name,
+            description: p.description,
+            completed: p.completed === 1 ? true : false
+          };
+        })
+      );
     })
     .catch(err => {
       res.status(500).json({ message: "Cannot get projects: " + err.message });
@@ -70,18 +79,21 @@ router.get("/projects", (req, res) => {
 
 router.post("/projects/:id/tasks", (req, res) => {
   projects
-    .addTask({project_id: req.params.id, description: req.body.description, notes: req.body.notes, completed: req.body.completed ? req.body.completed : false})
+    .addTask({
+      project_id: req.params.id,
+      description: req.body.description,
+      notes: req.body.notes,
+      completed: req.body.completed ? req.body.completed : false
+    })
     .then(task => {
-      res
-        .status(201)
-        .json({
-          message: "Task created!",
-          task: {
-            task_id: task[0],
-            description: req.body.description,
-            completed: req.body.completed ? req.body.completed : false
-          }
-        });
+      res.status(201).json({
+        message: "Task created!",
+        task: {
+          task_id: task[0],
+          description: req.body.description,
+          completed: req.body.completed ? req.body.completed : false
+        }
+      });
     })
     .catch(err => {
       res.status(500).json({ message: "Cannot add tasks: " + err.message });
@@ -92,7 +104,18 @@ router.get("/projects/:id/tasks", (req, res) => {
   projects
     .getTasks(req.params.id)
     .then(tasks => {
-      res.json(tasks.map(t => {return{task_id: t.task_id, project_id: t.project_id, description: t.description, notes: t.notes, completed: t.completed === 1 ? true : false}}));
+      res.json(
+        tasks.map(t => {
+          return {
+            task_id: t.task_id,
+            project_id: t.project_id,
+            project_name: t.project_name,
+            description: t.description,
+            notes: t.notes,
+            completed: t.completed === 1 ? true : false
+          };
+        })
+      );
     })
     .catch(err => {
       res
