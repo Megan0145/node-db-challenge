@@ -61,7 +61,7 @@ router.get("/projects", (req, res) => {
   projects
     .getProjects()
     .then(projects => {
-      res.json(projects);
+      res.json(projects.map(p => {return {project_id: p.project_id, project_name: p.project_name, description: p.description, completed: p.completed === 1 ? true : false}}))
     })
     .catch(err => {
       res.status(500).json({ message: "Cannot get projects: " + err.message });
@@ -92,7 +92,7 @@ router.get("/projects/:id/tasks", (req, res) => {
   projects
     .getTasks(req.params.id)
     .then(tasks => {
-      res.json(tasks);
+      res.json(tasks.map(t => {return{task_id: t.task_id, project_id: t.project_id, description: t.description, notes: t.notes, completed: t.completed === 1 ? true : false}}));
     })
     .catch(err => {
       res
