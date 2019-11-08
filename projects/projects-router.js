@@ -36,6 +36,19 @@ router.get("/resources", (req, res) => {
     });
 });
 
+router.get("/projects/:id/resources", (req, res) => {
+  projects
+    .getResourcesByProjectId(req.params.id)
+    .then(resources => {
+      res.json(resources);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ message: "Could not get resources: " + err.message });
+    });
+});
+
 router.post("/projects", (req, res) => {
   projects
     .addProject(req.body)
