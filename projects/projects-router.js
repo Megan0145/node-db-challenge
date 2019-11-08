@@ -68,9 +68,9 @@ router.get("/projects", (req, res) => {
     });
 });
 
-router.post("/tasks", (req, res) => {
+router.post("/projects/:id/tasks", (req, res) => {
   projects
-    .addTask(req.body)
+    .addTask({project_id: req.params.id, description: req.body.description, notes: req.body.notes, completed: req.body.completed ? req.body.completed : false})
     .then(task => {
       res
         .status(201)
@@ -79,7 +79,7 @@ router.post("/tasks", (req, res) => {
           task: {
             task_id: task[0],
             description: req.body.description,
-            completed: req.body.completed
+            completed: req.body.completed ? req.body.completed : false
           }
         });
     })
