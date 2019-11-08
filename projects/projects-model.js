@@ -8,14 +8,20 @@ const db = require("../data/dbConfig");
 
 module.exports = {
     addResource,
-    getResources
+    getResources,
+    addProject
 }
 
-function addResource(resource){
+function addResource(resource) {
     return db("resources")
     .insert(resource)
 }
 
 function getResources() {
     return db("resources")
+}
+
+function addProject(project) {
+    return db("projects")
+    .insert(project)
 }

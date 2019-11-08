@@ -36,4 +36,22 @@ router.get("/resources", (req, res) => {
     });
 });
 
+router.post("/projects", (req, res) => {
+    projects.addProject(req.body)
+    .then(project => {
+        res.status(201).json({
+            message: "Project created",
+            project: {
+              id: project[0],
+              project_name: req.body.project_name,
+              description: req.body.description,
+              completed: req.body.completed
+            }
+          })
+    })
+    .catch(err => {
+        res.status(500).json({message: "Cannot create project: " + err.message})
+    })
+})
+
 module.exports = router;
