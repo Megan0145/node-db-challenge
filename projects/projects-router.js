@@ -23,6 +23,38 @@ router.post("/resources", (req, res) => {
     });
 });
 
+router.post("/projects/:id/resources", (req, res) => {
+  projects
+    .addResource(req.body)
+    .then(resource => {
+      projects
+        .addResourceToProject({
+          project_id: req.params.id,
+          resource_id: resource[0]
+        })
+        .then(projectresource => {
+          res
+            .status(201)
+            .json({
+              message: "Created successfully",
+              data: { project_id: req.params.id, resource_id: resource[0] }
+            });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({
+              message: "Could not add resource to project: " + err.message
+            });
+        });
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ message: "Could not add resource: " + err.message });
+    });
+});
+
 router.get("/resources", (req, res) => {
   projects
     .getResources()

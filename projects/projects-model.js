@@ -7,11 +7,16 @@ module.exports = {
   getProjects,
   addTask,
   getTasks,
-  getResourcesByProjectId
+  getResourcesByProjectId,
+  addResourceToProject
 };
 
 function addResource(resource) {
   return db("resources").insert(resource);
+}
+
+function addResourceToProject(values) {
+    return db("project_resources").insert(values)
 }
 
 function getResources() {
