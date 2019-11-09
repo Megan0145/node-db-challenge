@@ -2,52 +2,7 @@ const express = require("express");
 const projects = require("./projects-model");
 const router = express.Router();
 
-router.post("/projects/:id/resources", (req, res) => {
-  projects
-    .addResource(req.body)
-    .then(resource => {
-      projects
-        .addResourceToProject({
-          project_id: req.params.id,
-          resource_id: resource[0]
-        })
-        .then(projectresource => {
-          res
-            .status(201)
-            .json({
-              message: "Created successfully",
-              data: { project_id: req.params.id, resource_id: resource[0] }
-            });
-        })
-        .catch(err => {
-          res
-            .status(500)
-            .json({
-              message: "Could not add resource to project: " + err.message
-            });
-        });
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ message: "Could not add resource: " + err.message });
-    });
-});
-
-router.get("/projects/:id/resources", (req, res) => {
-  projects
-    .getResourcesByProjectId(req.params.id)
-    .then(resources => {
-      res.json(resources);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ message: "Could not get resources: " + err.message });
-    });
-});
-
-router.post("/projects", (req, res) => {
+router.post("/", (req, res) => {
   projects
     .addProject(req.body)
     .then(project => {
@@ -68,7 +23,7 @@ router.post("/projects", (req, res) => {
     });
 });
 
-router.get("/projects", (req, res) => {
+router.get("/", (req, res) => {
   projects
     .getProjects()
     .then(projects => {
@@ -88,15 +43,59 @@ router.get("/projects", (req, res) => {
     });
 });
 
-router.get("/projects/:id", (req, res) => {
-    projects.getTasks(req.params.id)
-    .then(tasks => res.json(tasks))
-    .catch(err => {
-        res.status(500).json({message: "Could not get project: " + err.message})
+router.post("/:id/resources", (req, res) => {
+  projects
+    .addResource(req.body)
+    .then(resource => {
+      projects
+        .addResourceToProject({
+          project_id: req.params.id,
+          resource_id: resource[0]
+        })
+        .then(projectresource => {
+          res.status(201).json({
+            message: "Created successfully",
+            data: { project_id: req.params.id, resource_id: resource[0] }
+          });
+        })
+        .catch(err => {
+          res.status(500).json({
+            message: "Could not add resource to project: " + err.message
+          });
+        });
     })
-})
+    .catch(err => {
+      res
+        .status(500)
+        .json({ message: "Could not add resource: " + err.message });
+    });
+});
 
-router.post("/projects/:id/tasks", (req, res) => {
+router.get("/:id/resources", (req, res) => {
+  projects
+    .getResourcesByProjectId(req.params.id)
+    .then(resources => {
+      res.json(resources);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ message: "Could not get resources: " + err.message });
+    });
+});
+
+router.get("/:id", (req, res) => {
+  projects
+    .getProjectById(req.params.id)
+    .then(project => res.json(project))
+    .catch(err => {
+      res
+        .status(500)
+        .json({ message: "Could not get project: " + err.message });
+    });
+});
+
+router.post("/:id/tasks", (req, res) => {
   projects
     .addTask({
       project_id: req.params.id,
@@ -119,7 +118,7 @@ router.post("/projects/:id/tasks", (req, res) => {
     });
 });
 
-router.get("/projects/:id/tasks", (req, res) => {
+router.get("/:id/tasks", (req, res) => {
   projects
     .getTasks(req.params.id)
     .then(tasks => {
